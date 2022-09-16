@@ -5,8 +5,8 @@ using UnityEngine.AI;
 
 public class attackAreaState : StateMachineBehaviour
 {
-    Agent_AI TeamHaveBall;
     NavMeshAgent agent;
+    NavMeshAgent agent2;
     GameObject WP;
     GameObject[] waypoints; // attack waypoints
     int wpi = 0;    // attack waypoints index
@@ -16,18 +16,29 @@ public class attackAreaState : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         waypoints = GameObject.FindGameObjectsWithTag("waypointsred");
-        agent = animator.gameObject.GetComponent<NavMeshAgent>();
+        //agent = animator.gameObject.GetComponent<NavMeshAgent>();
+        agent = GameObject.FindGameObjectWithTag("agentRed").GetComponent<NavMeshAgent>();
+        agent2 = GameObject.FindGameObjectWithTag("agent2Red").GetComponent<NavMeshAgent>();
         SetNextWaypoint();
     }
     void SetNextWaypoint()
     {
         do
         {
-            wpi = Random.Range(0, waypoints.Length - 1);
+            wpi = Random.Range(1, waypoints.Length - 1);
         }
         while (lastWP.Equals(waypoints[wpi].gameObject.name));
+        Debug.Log(wpi);
 
-        agent.SetDestination(waypoints[wpi].transform.position);
+        if (GameObject.FindGameObjectWithTag("agentRed").GetComponent<Animator>().GetBool("TeamHaveBall"))
+        {
+            agent.SetDestination(waypoints[wpi].transform.position);
+        }
+        if (GameObject.FindGameObjectWithTag("agent2Red").GetComponent<Animator>().GetBool("TeamHaveBall"))
+        {
+            agent2.SetDestination(waypoints[wpi].transform.position);
+        }
+        
         lastWP = waypoints[wpi].gameObject.name;
     }
     public void OnTriggerEnter(Collider c)
