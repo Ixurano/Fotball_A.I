@@ -30,7 +30,7 @@ public class RunningState : StateMachineBehaviour
             agent.SetDestination(Goal.transform.position);
             DistanceGoal = Vector3.Distance(agent.transform.position, Goal.transform.position);
             animator.SetFloat("DistanceGoal", DistanceGoal);
-            if (DistanceGoal < 6.2f) 
+            if (DistanceGoal <= 9.0f) 
             {
                 
             }
@@ -40,9 +40,9 @@ public class RunningState : StateMachineBehaviour
             agent2.SetDestination(Goal.transform.position);
             DistanceGoal = Vector3.Distance(agent2.transform.position, Goal.transform.position);
             animator.SetFloat("DistanceGoal", DistanceGoal);
-            if (DistanceGoal < 6.2f)
+            if (DistanceGoal <= 9.0f)
             {
-
+                //agent2.ResetPath();
             }
         }
     }

@@ -1,14 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ShootingState : StateMachineBehaviour
 {
-    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
+    Agent_AI ai;
+    GameObject Goal;
+    Rigidbody ball;
+    NavMeshAgent agent;
+    NavMeshAgent agent2;
+    float DistanceGoal;
+    Animator fsm;
+
+
+    //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        Goal = GameObject.FindGameObjectWithTag("goalRed");
+        ball = GameObject.FindGameObjectWithTag("ball").GetComponent<Rigidbody>();
+        agent = GameObject.FindGameObjectWithTag("agentRed").GetComponent<NavMeshAgent>();
+        agent2 = GameObject.FindGameObjectWithTag("agent2Red").GetComponent<NavMeshAgent>();
+
+
+
+        if (GameObject.FindGameObjectWithTag("agentRed").GetComponent<Animator>().GetFloat("DistanceGoal") <= 9.0f)
+        {
+            Debug.Log("BOOOMCTJACKALACKA");
+            ball.AddForce(0, 0, -10.0f, ForceMode.Impulse);
+        }
+        if (GameObject.FindGameObjectWithTag("agent2Red").GetComponent<Animator>().GetFloat("DistanceGoal") <= 9.0f)
+        {
+            //ai.HasBall2 = false;
+            Debug.Log("BOOOMCTJACKALACKA");
+            ball.AddForce(0, 0, -10.0f, ForceMode.Impulse);
+        }
+    }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -16,21 +43,4 @@ public class ShootingState : StateMachineBehaviour
     //    
     //}
 
-    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
-
-    // OnStateMove is called right after Animator.OnAnimatorMove()
-    //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that processes and affects root motion
-    //}
-
-    // OnStateIK is called right after Animator.OnAnimatorIK()
-    //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that sets up animation IK (inverse kinematics)
-    //}
 }

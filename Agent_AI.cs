@@ -5,15 +5,12 @@ using UnityEngine.AI;
 
 public class Agent_AI : MonoBehaviour
 {
-    bool HasBall;
-    bool HasBall2;
-    bool TeamHaveBall;
-    bool Red2HaveBall;
+    public bool HasBall;
+    public bool HasBall2;
     NavMeshAgent agent;
     NavMeshAgent agent2;
     GameObject agentPlayer;
     GameObject ball;
-    Animator fsm;
     GameObject ballFoot;
     GameObject ballFoot2;
     GameObject[] waypoints; // attack waypoints
@@ -21,8 +18,6 @@ public class Agent_AI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        fsm = GetComponent<Animator>();
-        //agent = GetComponent<NavMeshAgent>();
         agent = GameObject.FindGameObjectWithTag("agentRed").GetComponent<NavMeshAgent>();
         agent2 = GameObject.FindGameObjectWithTag("agent2Red").GetComponent<NavMeshAgent>();
         ball = GameObject.FindGameObjectWithTag("ball");
@@ -30,8 +25,6 @@ public class Agent_AI : MonoBehaviour
         ballFoot2 = GameObject.FindGameObjectWithTag("ballFoot2");
         HasBall = false;
         HasBall2 = false;
-        TeamHaveBall = false;
-        Red2HaveBall = false;
         waypoints = GameObject.FindGameObjectsWithTag("waypointsred");
         
 
@@ -43,20 +36,18 @@ public class Agent_AI : MonoBehaviour
         //agent 1 have ball
         if (agent)
         {
-            if (HasBall == true)
+            if (agent.GetComponent<Animator>().GetBool("HasBall"))
             {
-                //fsm.SetBool("HasBall", true);
                 agent.GetComponent<Animator>().SetBool("HasBall", true);
                 ball.transform.position = ballFoot.transform.position;
             }
             //team have ball
-            if (HasBall2 == true)
+            if (agent2.GetComponent<Animator>().GetBool("HasBall"))
             {
-                //Debug.Log("Team have ball");
                 agent.GetComponent<Animator>().SetBool("TeamHaveBall", true);
             }
             //team does not have ball
-            if (HasBall2 == false)
+            if (!agent2.GetComponent<Animator>().GetBool("HasBall"))
             {
                 agent.GetComponent<Animator>().SetBool("TeamHaveBall", false);
             }
@@ -64,19 +55,19 @@ public class Agent_AI : MonoBehaviour
         //agent 2 have ball
         if (agent2)
         {
-            if(HasBall2 == true)
+            if (agent2.GetComponent<Animator>().GetBool("HasBall"))
             {
-                //fsm.SetBool("HasBall", true);
                 agent2.GetComponent<Animator>().SetBool("HasBall", true);
                 ball.transform.position = ballFoot2.transform.position;
+
             }
             //team have ball
-            if (HasBall == true)
+            if (agent.GetComponent<Animator>().GetBool("HasBall"))
             {
                 agent2.GetComponent<Animator>().SetBool("TeamHaveBall", true);
             }
             //team does not have ball
-            if (HasBall == false)
+            if (!agent.GetComponent<Animator>().GetBool("HasBall"))
             {
                 agent2.GetComponent<Animator>().SetBool("TeamHaveBall", false);
             }
@@ -106,52 +97,27 @@ public class Agent_AI : MonoBehaviour
             {
                 if (gameObject.tag == "agent2Red")
                 {
-                    if (agent.GetComponent<Animator>().GetBool("HasBall") == false)
+                    if (agent2.GetComponent<Animator>().GetBool("HasBall") == false)
                     {
-                        agent.GetComponent<Animator>().GetBehaviour<attackAreaState>().OnTriggerEnter(other);
+                        agent2.GetComponent<Animator>().GetBehaviour<attackAreaState>().OnTriggerEnter(other);
                     }
                 }
             }
         }
-        //if (other.gameObject.tag == "waypointsred")
-        //{
-        //    if (gameObject.tag == "agentRed")
-        //    {
-        //        if (agent.GetComponent<Animator>().GetBool("HasBall") == false)
-        //        {
-        //            agent.GetComponent<Animator>().GetBehaviour<attackAreaState>().OnTriggerEnter(other);
-        //        }
-        //    }
-        //    if (gameObject.tag == "agent2Red")
-        //    {
-        //        if (agent2.GetComponent<Animator>().GetBool("HasBall") == false)
-        //        {
-        //            agent2.GetComponent<Animator>().GetBehaviour<attackAreaState>().OnTriggerEnter(other);
-        //        }
-        //    }
-        //    //fsm.GetBehaviour<attackAreaState>().OnTriggerEnter(other);
-        //};
+
         //searchState
         if (other.gameObject.tag == "ball")
         {
             if(gameObject.tag == "agentRed")
             {
                 agent.GetComponent<Animator>().SetBool("HasBall", true);
-                //agent.GetComponent<Animator>().GetBehaviour<SearchState>().OnTriggerEnter(other);
-                //fsm.SetBool("HasBall", true);
-                //fsm.GetBehaviour<SearchState>().OnTriggerEnter(other);
-
-                HasBall = true;
+                //HasBall = true;
                 
             }
             if(gameObject.tag == "agent2Red")
             {
                 agent2.GetComponent<Animator>().SetBool("HasBall", true);
-                //agent2.GetComponent<Animator>().GetBehaviour<SearchState>().OnTriggerEnter(other);
-                //fsm.SetBool("HasBall", true);
-                //fsm.GetBehaviour<SearchState>().OnTriggerEnter(other);
-
-                HasBall2 = true;
+                //HasBall2 = true;
             }
         }
     }
@@ -159,9 +125,10 @@ public class Agent_AI : MonoBehaviour
     {   //lostTheBall
         if(other.gameObject.tag == "ball")
         {
-            HasBall = false;
-            HasBall2 = false;
-            fsm.SetBool("HasBall", false);
+            //HasBall = false;
+            //HasBall2 = false;
+            agent.GetComponent<Animator>().SetBool("HasBall", false);
+            agent2.GetComponent<Animator>().SetBool("HasBall", false);
         }
     }
 }

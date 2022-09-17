@@ -39,24 +39,4 @@ public class SearchState : StateMachineBehaviour
             agent2.SetDestination(ball.transform.position);
         }
     }
-    //public void OnTriggerEnter(Collider c)
-    //{
-    //    if(agent.GetComponent<Animator>().GetBool("HasBall") == true)
-    //    {
-    //        if (c.gameObject.name == "ball")
-    //        {
-    //            ball.transform.position = ballFoot.transform.position;
-    //            HasBall = true;
-    //        }
-    //    }
-    //    if (agent2.GetComponent<Animator>().GetBool("HasBall") == true)
-    //    {
-    //        if (c.gameObject.name == "ball")
-    //        {
-    //            ball.transform.position = ballFoot2.transform.position;
-    //            HasBall2 = true;
-    //        }
-    //    }
-
-    //}
 }
