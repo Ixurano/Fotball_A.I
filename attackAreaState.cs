@@ -16,9 +16,19 @@ public class attackAreaState : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         waypoints = GameObject.FindGameObjectsWithTag("waypointsred");
-        //agent = animator.gameObject.GetComponent<NavMeshAgent>();
         agent = GameObject.FindGameObjectWithTag("agentRed").GetComponent<NavMeshAgent>();
         agent2 = GameObject.FindGameObjectWithTag("agent2Red").GetComponent<NavMeshAgent>();
+        // goes from passingstate to attack resume new path
+        if (!agent.GetComponent<Animator>().GetBool("HasBall"))
+        {
+            agent.isStopped = false;
+        }
+        if (!agent2.GetComponent<Animator>().GetBool("HasBall"))
+        {
+            agent2.isStopped = false;
+        }
+
+
         SetNextWaypoint();
     }
     void SetNextWaypoint()
@@ -28,7 +38,6 @@ public class attackAreaState : StateMachineBehaviour
             wpi = Random.Range(1, waypoints.Length - 1);
         }
         while (lastWP.Equals(waypoints[wpi].gameObject.name));
-        Debug.Log(wpi);
 
         if (GameObject.FindGameObjectWithTag("agentRed").GetComponent<Animator>().GetBool("TeamHaveBall"))
         {
