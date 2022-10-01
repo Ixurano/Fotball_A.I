@@ -29,7 +29,7 @@ public class ShootingState : StateMachineBehaviour
         {
             ball.AddForce(0, 0, -10.0f, ForceMode.Impulse);
             //Application.Quit();
-            UnityEditor.EditorApplication.isPlaying = false;
+            //UnityEditor.EditorApplication.isPlaying = false;
         }
     }
 }
